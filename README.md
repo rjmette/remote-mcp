@@ -101,6 +101,69 @@ The MCP Memory server will be available at:
 http://54.242.99.144:8000
 ```
 
+## Testing Your MCP Server
+
+A Python script is provided to test if your MCP Memory server is working correctly. The script stores a message and then retrieves it to verify functionality.
+
+### Prerequisites for Testing
+
+- Python 3.6+
+- requests library (`pip install -r requirements.txt`)
+
+### Using the Test Script
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the test script with your server URL
+python test_mcp_server.py http://54.242.99.144:8000
+```
+
+The script will:
+
+1. Generate a unique conversation ID
+2. Store a test message on the server
+3. Retrieve the stored message
+4. Verify the content matches
+
+Example output:
+
+```
+Testing MCP Memory Server at: http://54.242.99.144:8000
+Using conversation ID: 12345678-1234-5678-1234-567812345678
+
+=== Step 1: Storing a message ===
+POST http://54.242.99.144:8000/memory/12345678-1234-5678-1234-567812345678
+Data: {
+  "role": "user",
+  "content": "Test message from MCP client",
+  "metadata": {
+    "timestamp": 1621234567.89
+  }
+}
+Status: 200
+Response: {"status":"success"}
+✅ Message stored successfully
+
+=== Step 2: Retrieving messages ===
+GET http://54.242.99.144:8000/memory/12345678-1234-5678-1234-567812345678
+Status: 200
+Retrieved 1 message(s)
+Response: [
+  {
+    "role": "user",
+    "content": "Test message from MCP client",
+    "metadata": {
+      "timestamp": 1621234567.89
+    }
+  }
+]
+✅ Message content verified
+
+=== Test Completed Successfully ===
+```
+
 ## Troubleshooting
 
 If you need to check if the MCP server is running properly on the EC2 instance:
